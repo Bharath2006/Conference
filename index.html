@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store User Info</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #49d0fd, #ffffff);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+       h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, select {
+            margin: 12px 0;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus {
+            border-color: #49d0fd;
+            box-shadow: 0 0 10px rgba(73, 208, 253, 0.5);
+            outline: none;
+        }
+        input::placeholder, select {
+            color: #888;
+        }
+        button {
+            padding: 12px;
+            background: linear-gradient(135deg, #28a745, #2dbf73);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #218838, #249f68);
+            transform: translateY(-3px);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            font-size: 18px;
+            color: white;
+        }
+        .loading-text {
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        #successMessage {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInUp 0.5s forwards;
+        }
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        #successMessage p {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4caf50;
+            text-align: center;
+        }
+        #okButton {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #28a745, #2dbf73);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        #okButton:hover {        
+            background: linear-gradient(135deg, #218838, #249f68);
+            transform: translateY(-3px);
+        }
+        #okButton:active {
+            transform: translateY(1px);
+        }
+        .loading-spinner {
+            border: 5px solid rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #49d0fd;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .status-message {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .error-border {        
+            border-color: red !important;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        }
+        .success {
+            color: #4caf50;
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            padding: 12px;
+            background: linear-gradient(135deg, #2196F3, #1E88E5);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #1976D2, #1565C0);
+            transform: translateY(-3px);
+        }
+        .back-button:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Information Form</h1>
+        <form id="userForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <div id="nameError" class="error"></div>
+
+            <input type="text" id="clgName" placeholder="College Name" required>
+            <div id="clgNameError" class="error"></div>
+
+            <input type="text" id="department" placeholder="Department (Abbreviation)" required>
+            <div id="departmentError" class="error"></div>
+
+            <select id="year" required>
+                <option value="">Select Year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+            <div id="yearError" class="error"></div>
+            <input type="email" id="email" placeholder="Email ID" required>
+            <div id="emailError" class="error"></div>
+            <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+            <div id="phoneNumberError" class="error"></div>
+            <select id="participationType" required>
+                <option value="">Select Participation Type</option>
+                <option value="Presentation">Presentation</option>
+                <option value="Participation">Participation</option>
+            </select>
+            <div id="participationTypeError" class="error"></div>
+            <input type="text" id="upiId" placeholder="UPI ID" required>
+            <div id="upiIdError" class="error"></div>
+            <input type="url" id="upiScreenshot" placeholder="UPI Transaction Screenshot (Google Drive URL)" required>
+            <div id="upiScreenshotError" class="error"></div>
+            <select id="domain" required>
+                <option value="">Select Domain</option>
+                <option value="CN">Communication and Networking</option>
+                <option value="ML">Database Systems, Data Warehousing, and Data Mining</option>
+                <option value="Web Dev">Information Assurance</option>
+                <option value="AI">Web Services and Technologies</option>
+                <option value="ML">Software Engineering</option>
+                <option value="AI">Multimedia Processing</option>
+                <option value="ML">Al Algorithms</option>
+                <option value="Web Dev">Artificial Intelligence tools & Applications</option>
+                <option value="AI">Automatic Control</option>
+                <option value="ML">Bioinformatics</option>
+                <option value="AI">Image and Video Processing</option>
+                <option value="ML">Natural Language Processing</option>
+                <option value="Web Dev">CAD Design & Testing</option>
+                <option value="AI">Computer Vision and Speech Understanding</option>
+                <option value="ML">Data Mining and Machine Learning Tools</option>
+                <option value="AI">Fuzzy Logic</option>
+                <option value="ML">Heuristic and Al Planning Strategies and Tools</option>
+                <option value="Web Dev">Computational Theories of Learning</option>
+                <option value="AI">Hybrid Intelligent Systems</option>
+                <option value="ML">Information Retrieval</option>
+                <option value="AI">Knowledge Representation</option>
+                <option value="ML">Knowledge-based Systems</option>
+                <option value="Web Dev">Mechatronics</option>
+                <option value="AI">Multimedia & Cognitive Informatics</option>
+                <option value="ML">Neural Networks</option>
+                <option value="ML">Parallel Processing</option>
+                <option value="ML">Pattern Recognition</option>
+                <option value="ML">Robotics</option>
+
+            </select>
+            <div id="domainError" class="error"></div>
+            <select id="userType" required>
+                <option value="">Select User Type</option>
+                <option value="Student">Student</option>
+                <option value="Faculty">Faculty</option>
+            </select>
+            <div id="userTypeError" class="error"></div>
+            <input type="url" id="paperAttachment" placeholder="Paper Attachment (Google Drive URL)" required>
+            <div id="paperAttachmentError" class="error"></div>
+            <input type="text" id="title" placeholder="Title" required>
+            <div id="titleError" class="error"></div>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="loading" class="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <div id="successMessage" class="status-message" style="display: none;">
+            <p>Data saved successfully!</p>
+            <button id="okButton" class="back-button">OK</button>
+        </div>
+            </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDuuumZaf2vqFA3ezY_eq98Pq7qQIDTe0Q",
+            authDomain: "kkrt-8726d.firebaseapp.com",
+            projectId: "kkrt-8726d",
+            storageBucket: "kkrt-8726d.firebasestorage.app",
+            messagingSenderId: "775944666621",
+            appId: "1:775944666621:web:180754cc4a130108372d94",
+            measurementId: "G-BT8TZ60JGR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        function isValidUPI(upiId) {
+            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$/.test(upiId);
+        }
+
+        function isValidDocsURL(url) {
+            return url.startsWith("https://docs.google.com/");
+        }
+
+        function resetErrors() {
+            document.querySelectorAll('.error').forEach(error => error.innerText = '');
+            document.querySelectorAll('input, select').forEach(input => input.classList.remove('error-border'));
+        }
+
+        async function saveUserDetails(userDetails) {
+            try {
+                document.getElementById('loading').style.display = 'flex';
+                await addDoc(collection(db, 'userDetails'), userDetails);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'flex';
+                document.getElementById('okButton').addEventListener('click', () => {
+                    document.getElementById('successMessage').style.display = 'none';
+                    document.getElementById('userForm').reset();
+                    document.getElementById('status').innerText = '';
+                });
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('status').innerText = `Error: ${error.message}`;
+                document.getElementById('status').style.color = '#f44336';
+                document.getElementById('status').style.backgroundColor = '#fbe9e7';
+            }
+        }
+        document.getElementById('userForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            resetErrors();
+            let isValid = true;
+            const userDetails = {
+                name: document.getElementById('name').value,
+                clgName: document.getElementById('clgName').value,
+                department: document.getElementById('department').value,
+                year: document.getElementById('year').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                participationType: document.getElementById('participationType').value,
+                upiId: document.getElementById('upiId').value,
+                upiScreenshot: document.getElementById('upiScreenshot').value,
+                domain: document.getElementById('domain').value,
+                userType: document.getElementById('userType').value,
+                paperAttachment: document.getElementById('paperAttachment').value,
+                title: document.getElementById('title').value,
+                timestamp: serverTimestamp()
+            };
+            if (!userDetails.name) {
+                isValid = false;
+                document.getElementById('nameError').innerText = 'Name is required';
+                document.getElementById('name').classList.add('error-border');
+            }
+            if (!userDetails.clgName) {
+                isValid = false;
+                document.getElementById('clgNameError').innerText = 'College Name is required';
+                document.getElementById('clgName').classList.add('error-border');
+            }
+            if (!userDetails.department) {
+                isValid = false;
+                document.getElementById('departmentError').innerText = 'Department is required';
+                document.getElementById('department').classList.add('error-border');
+            }
+            if (!userDetails.year) {
+                isValid = false;
+                document.getElementById('yearError').innerText = 'Year is required';
+                document.getElementById('year').classList.add('error-border');
+            }
+            if (!userDetails.email) {
+                isValid = false;
+                document.getElementById('emailError').innerText = 'Email is required';
+                document.getElementById('email').classList.add('error-border');
+            }
+            if (!userDetails.phoneNumber) {
+                isValid = false;
+                document.getElementById('phoneNumberError').innerText = 'Phone Number is required';
+                document.getElementById('phoneNumber').classList.add('error-border');
+            }
+            if (!userDetails.participationType) {
+                isValid = false;
+                document.getElementById('participationTypeError').innerText = 'Participation Type is required';
+                document.getElementById('participationType').classList.add('error-border');
+            }
+            if (!userDetails.upiId || !isValidUPI(userDetails.upiId)) {
+                isValid = false;
+                document.getElementById('upiIdError').innerText = 'Valid UPI ID is required';
+                document.getElementById('upiId').classList.add('error-border');
+            }
+            if (!userDetails.upiScreenshot || !isValidDocsURL(userDetails.upiScreenshot)) {
+                isValid = false;
+                document.getElementById('upiScreenshotError').innerText = 'Valid UPI Screenshot URL is required';
+                document.getElementById('upiScreenshot').classList.add('error-border');
+            }
+            if (!userDetails.domain) {
+                isValid = false;
+                document.getElementById('domainError').innerText = 'Domain is required';
+                document.getElementById('domain').classList.add('error-border');
+            }
+            if (!userDetails.userType) {
+                isValid = false;
+                document.getElementById('userTypeError').innerText = 'User Type is required';
+                document.getElementById('userType').classList.add('error-border');
+            }
+            if (!userDetails.paperAttachment || !isValidDocsURL(userDetails.paperAttachment)) {
+                isValid = false;
+                document.getElementById('paperAttachmentError').innerText = 'Valid Paper Attachment URL is required';
+                document.getElementById('paperAttachment').classList.add('error-border');
+            }
+            if (!userDetails.title) {
+                isValid = false;
+                document.getElementById('titleError').innerText = 'Title is required';
+                document.getElementById('title').classList.add('error-border');
+            }
+            if (isValid) {
+                document.getElementById('loading').style.display = 'flex';
+                saveUserDetails(userDetails);
+            }
+        });
+    </script>
+</body>
+</html>
