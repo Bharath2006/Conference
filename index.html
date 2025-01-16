@@ -96,9 +96,8 @@
             </select>
             <div id="domainError" class="error"></div>
             <input type="text" id="title" placeholder="Title">
-            <div id="titleError" class="error"></div>
-            <input type="url" id="paperAttachment" placeholder="Paper Attachment (Google Drive URL)">
-            <div id="paperAttachmentError" class="error"></div>
+            <div id="titleError" class="error"></div>
+            
             <h3>Team Member Details (Only one member allowed)</h3>
             <input type="text" id="teamMemberFullName" placeholder="Team Member Full Name (eg : BHARATH S)">
             <div id="teamMemberFullNameError" class="error"></div>
@@ -229,7 +228,7 @@
     const participationFields = [
         { id: "domain", errorId: "domainError", message: "Domain is required." },
         { id: "title", errorId: "titleError", message: "Title is required." },
-        { id: "paperAttachment", errorId: "paperAttachmentError", message: "Paper attachment is required." },
+        
         { id: "teamMemberFullName", errorId: "teamMemberFullNameError", message: "Team member full name is required." },
         { id: "teamMemberClg", errorId: "teamMemberClgError", message: "Team member college name is required." },
         { id: "teamMemberDepartment", errorId: "teamMemberDepartmentError", message: "Team member department is required." },
@@ -251,7 +250,7 @@
             participationType: "Presentation",
             domain: document.getElementById("domain").value,
             title: document.getElementById("title").value,
-            paperAttachment: document.getElementById("paperAttachment").value,
+            
             teamMemberFullName: document.getElementById("teamMemberFullName").value,
             teamMemberClg: document.getElementById("teamMemberClg").value,
             teamMemberDepartment: document.getElementById("teamMemberDepartment").value,
