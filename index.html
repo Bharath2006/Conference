@@ -41,8 +41,8 @@
             <div id="userTypeError" class="error"></div>
             <select id="participationType">
                 <option value="">Select Participation Type</option>
-                <option value="Presentation">Presentation</option>
-                <option value="Participation">Participation</option>
+                <option value="Presentation">Participation</option>
+                <option value="Participation">Presentation</option>
             </select>
             <div id="participationTypeError" class="error"></div>
             <button type="button" id="nextButton">Next</button>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <form id="presentationForm" style="display: none;">
-            <h2>Presentation Details</h2>
+            <h2>Participation Details</h2>
             <input type="text" id="upiId" placeholder="UPI ID">
             <div id="upiIdError" class="error"></div>
             <input type="url" id="presentationScreenshot" placeholder="UPI Transaction Screenshot (Google Drive URL)">
@@ -62,7 +62,7 @@
             <button type="button" id="submitPresentation">Submit</button>
         </form>
         <form id="participationForm" style="display: none;">
-            <h2>Participation Details</h2>
+            <h2>Presentation Details</h2>
             <select id="domain">
                 <option value="">Select Domain</option>
                 <option value="Communication and Networking">Communication and Networking</option>
@@ -120,10 +120,10 @@
             <input type="tel" id="teamMemberPhoneNumber" placeholder="Team Member Phone Number">
             <div id="teamMemberPhoneNumberError" class="error"></div>
             <h3>Payment Details</h3>
-            <input type="url" id="upiScreenshot" placeholder="UPI Screenshot (Google Drive URL)">
-            <div id="upiScreenshotError" class="error"></div>
-            <input type="text" id="upiId" placeholder="UPI ID">
-            <div id="upiIdError" class="error"></div>
+            <input type="text" id="ParticipationupiId" placeholder="UPI ID">
+            <div id="ParticipationupiIdError" class="error"></div>
+            <input type="url" id="ParticipationScreenshot" placeholder="UPI Transaction Screenshot (Google Drive URL)">
+            <div id="ParticipationScreenshotError" class="error"></div>
             <button type="button" id="submitParticipation">Submit</button>
         </form>
         <div id="successMessage" style="display: none;">
@@ -143,12 +143,10 @@
             measurementId: "G-BT8TZ60JGR"
         };
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        
+        const db = getFirestore(app);   
         const resetErrors = () => {
             document.querySelectorAll('.error').forEach(err => err.innerText = '');
         };
-        
         const isValidUpiId = (upiId) => {
             const upiRegex = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
             return upiRegex.test(upiId);
@@ -218,15 +216,15 @@
                     email: document.getElementById("email").value,
                     phoneNumber: document.getElementById("phoneNumber").value,
                     userType: document.getElementById("userType").value,
-                    participationType: "Presentation",
+                    participationType: "Participation",
                     upiId: document.getElementById("upiId").value,
                     presentationScreenshot: document.getElementById("presentationScreenshot").value,
                     timestamp: serverTimestamp()
                 };
                 saveToFirestore(userDetails);
             }
-        });
-        document.getElementById("submitParticipation").addEventListener("click", () => {
+    });
+    document.getElementById("submitParticipation").addEventListener("click", () => {
     resetErrors();
     const participationFields = [
         { id: "domain", errorId: "domainError", message: "Domain is required." },
@@ -238,8 +236,8 @@
         { id: "teamMemberYear", errorId: "teamMemberYearError", message: "Team member year is required." },
         { id: "teamMemberEmail", errorId: "teamMemberEmailError", message: "Team member email is required." },
         { id: "teamMemberPhoneNumber", errorId: "teamMemberPhoneNumberError", message: "Team member phone number is required." },
-        { id: "upiScreenshot", errorId: "upiScreenshotError", message: "UPI screenshot (Google Drive URL) is required." },
-        { id: "upiId", errorId: "upiIdError", message: "UPI ID is required." }
+        { id: "ParticipationupiId", errorId: "ParticipationupiIdError", message: "UPI ID is required." },
+        { id: "ParticipationScreenshot", errorId: "ParticipationScreenshotError", message: "UPI screenshot is required." }
     ];
     if (validateForm(participationFields)) {
         const userDetails = {
@@ -250,22 +248,23 @@
             email: document.getElementById("email").value,
             phoneNumber: document.getElementById("phoneNumber").value,
             userType: document.getElementById("userType").value,
-            participationType: "Participation",
+            participationType: "Presentation",
             domain: document.getElementById("domain").value,
             title: document.getElementById("title").value,
             paperAttachment: document.getElementById("paperAttachment").value,
-            teamMemberfullName: document.getElementById("teamMemberFullName").value,
-            teamMemberclgName: document.getElementById("teamMemberClg").value,
-            teamMemberdepartment: document.getElementById("teamMemberDepartment").value,
-            teamMemberyear: document.getElementById("teamMemberYear").value,
-            teamMemberemail: document.getElementById("teamMemberEmail").value,
-            teamMemberphoneNumber: document.getElementById("teamMemberPhoneNumber").value,
-            upiScreenshot: document.getElementById("upiScreenshot").value,
-            upiId: document.getElementById("upiId").value,
+            teamMemberFullName: document.getElementById("teamMemberFullName").value,
+            teamMemberClg: document.getElementById("teamMemberClg").value,
+            teamMemberDepartment: document.getElementById("teamMemberDepartment").value,
+            teamMemberYear: document.getElementById("teamMemberYear").value,
+            teamMemberEmail: document.getElementById("teamMemberEmail").value,
+            teamMemberPhoneNumber: document.getElementById("teamMemberPhoneNumber").value,
+            upiId: document.getElementById("ParticipationupiId").value,
+            presentationScreenshot: document.getElementById("ParticipationScreenshot").value,
             timestamp: serverTimestamp()
         };
         saveToFirestore(userDetails);
     }
-}); </script>
+});
+ </script>
 </body>
 </html>
