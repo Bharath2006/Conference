@@ -6,227 +6,22 @@
     <title>Conference</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #49d0fd, #ffffff);
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 30px;
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .container:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-       h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        input, select {
-            margin: 12px 0;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        input:focus, select:focus {
-            border-color: #49d0fd;
-            box-shadow: 0 0 10px rgba(73, 208, 253, 0.5);
-            outline: none;
-        }
-        input::placeholder, select {
-            color: #888;
-        }
-        button {
-            padding: 12px;
-            background: linear-gradient(135deg, #28a745, #2dbf73);
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-        button:hover {
-            background: linear-gradient(135deg, #218838, #249f68);
-            transform: translateY(-3px);
-        }
-        button:active {
-            transform: translateY(1px);
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-        }
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            font-size: 18px;
-            color: white;
-        }
-        .loading-text {
-            padding: 10px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        #successMessage {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            opacity: 0;
-            animation: fadeInUp 0.5s forwards;
-        }
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -60%);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
-        #successMessage p {
-            margin: 10px 0;
-            font-size: 18px;
-            font-weight: bold;
-            color: #4caf50;
-            text-align: center;
-        }
-        #okButton {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #28a745, #2dbf73);
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-            font-weight: 600;
-            margin-top: 15px;
-        }
-        #okButton:hover {        
-            background: linear-gradient(135deg, #218838, #249f68);
-            transform: translateY(-3px);
-        }
-        #okButton:active {
-            transform: translateY(1px);
-        }
-        .loading-spinner {
-            border: 5px solid rgba(0, 0, 0, 0.1);
-            border-top: 5px solid #49d0fd;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        .status-message {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s forwards;
-        }
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .error-border {        
-            border-color: red !important;
-            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-        }
-        .success {
-            color: #4caf50;
-            background-color: #e8f5e9;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-button {
-            padding: 12px;
-            background: linear-gradient(135deg, #2196F3, #1E88E5);
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .back-button:hover {
-            background: linear-gradient(135deg, #1976D2, #1565C0);
-            transform: translateY(-3px);
-        }
-        .back-button:active {
-            transform: translateY(1px);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Conference</h1>
-        <form id="userForm">
-            <input type="text" id="name" placeholder="Full Name" required>
+        <h1>Conference Registration</h1>
+        <form id="mainForm">
+            <input type="text" id="name" placeholder="Full Name">
             <div id="nameError" class="error"></div>
 
-            <input type="text" id="clgName" placeholder="College Name" required>
+            <input type="text" id="clgName" placeholder="College Name">
             <div id="clgNameError" class="error"></div>
 
-            <input type="text" id="department" placeholder="Department (Abbreviation)" required>
+            <input type="text" id="department" placeholder="Department (Abbreviation)">
             <div id="departmentError" class="error"></div>
 
-            <select id="year" required>
+            <select id="year">
                 <option value="">Select Year</option>
                 <option value="1">1st Year</option>
                 <option value="2">2nd Year</option>
@@ -234,79 +29,69 @@
                 <option value="4">4th Year</option>
             </select>
             <div id="yearError" class="error"></div>
-            <input type="email" id="email" placeholder="Email ID" required>
+
+            <input type="email" id="email" placeholder="Email ID">
             <div id="emailError" class="error"></div>
-            <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+
+            <input type="tel" id="phoneNumber" placeholder="Phone Number">
             <div id="phoneNumberError" class="error"></div>
-            <select id="participationType" required>
+
+            <select id="participationType">
                 <option value="">Select Participation Type</option>
                 <option value="Presentation">Presentation</option>
                 <option value="Participation">Participation</option>
             </select>
             <div id="participationTypeError" class="error"></div>
-            <input type="text" id="upiId" placeholder="UPI ID" required>
+
+            <button type="button" id="nextButton">Next</button>
+        </form>
+        <div id="overlay" class="overlay">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <span class="loading-text">Submitting...</span>
+            </div>
+        </div>
+        <form id="presentationForm" style="display: none;">
+            <h2>Presentation Details</h2>
+            <input type="text" id="upiId" placeholder="UPI ID">
             <div id="upiIdError" class="error"></div>
-            <input type="url" id="upiScreenshot" placeholder="UPI Transaction Screenshot (Google Drive URL)" required>
-            <div id="upiScreenshotError" class="error"></div>
-            <select id="domain" required>
+
+            <input type="url" id="presentationScreenshot" placeholder="UPI Transaction Screenshot (Google Drive URL)">
+            <div id="presentationScreenshotError" class="error"></div>
+
+            <button type="button" id="submitPresentation">Submit</button>
+        </form>
+        <form id="participationForm" style="display: none;">
+            <h2>Participation Details</h2>
+            <select id="domain">
                 <option value="">Select Domain</option>
                 <option value="Communication and Networking">Communication and Networking</option>
                 <option value="Database Systems, Data Warehousing, and Data Mining">Database Systems, Data Warehousing, and Data Mining</option>
                 <option value="Information Assurance">Information Assurance</option>
-                <option value="Web Services and Technologies">Web Services and Technologies</option>
-                <option value="Software Engineering">Software Engineering</option>
-                <option value="Multimedia Processing">Multimedia Processing</option>
-                <option value="Al Algorithms">Al Algorithms</option>
-                <option value="Artificial Intelligence tools & Applications">Artificial Intelligence tools & Applications</option>
-                <option value="Automatic Control">Automatic Control</option>
-                <option value="Bioinformatics">Bioinformatics</option>
-                <option value="Image and Video Processing">Image and Video Processing</option>
-                <option value="Natural Language Processing">Natural Language Processing</option>
-                <option value="CAD Design & Testing">CAD Design & Testing</option>
-                <option value="Computer Vision and Speech Understanding">Computer Vision and Speech Understanding</option>
-                <option value="Data Mining and Machine Learning Tools">Data Mining and Machine Learning Tools</option>
-                <option value="Fuzzy Logic">Fuzzy Logic</option>
-                <option value="Heuristic and Al Planning Strategies and Tools">Heuristic and Al Planning Strategies and Tools</option>
-                <option value="Computational Theories of Learning">Computational Theories of Learning</option>
-                <option value="Hybrid Intelligent Systems">Hybrid Intelligent Systems</option>
-                <option value="Information Retrieval">Information Retrieval</option>
-                <option value="Knowledge Representation">Knowledge Representation</option>
-                <option value="Knowledge-based Systems">Knowledge-based Systems</option>
-                <option value="Mechatronics">Mechatronics</option>
-                <option value="Multimedia & Cognitive Informatics">Multimedia & Cognitive Informatics</option>
-                <option value="Neural Networks">Neural Networks</option>
-                <option value="Parallel Processing">Parallel Processing</option>
-                <option value="Pattern Recognition">Pattern Recognition</option>
-                <option value="Robotics">Robotics</option>
             </select>
             <div id="domainError" class="error"></div>
-            <select id="userType" required>
-                <option value="">Select User Type</option>
-                <option value="Student">Student</option>
-                <option value="Faculty">Faculty</option>
-                <option value="Research Scholars">Research Scholars</option>
-                <option value="Industrialist">Industrialist</option>
-            </select>
-            <div id="userTypeError" class="error"></div>
-            <input type="url" id="paperAttachment" placeholder="Paper Attachment (Google Drive URL)" required>
-            <div id="paperAttachmentError" class="error"></div>
-            <input type="text" id="title" placeholder="Title" required>
-            <div id="titleError" class="error"></div>
-            <button type="submit">Submit</button>
-        </form>
-        <div id="loading" class="loading" style="display: none;">
-            <div class="loading-spinner"></div>
-        </div>
 
-        <div id="successMessage" class="status-message" style="display: none;">
-            <p>Conference Data saved successfully!</p>
-            <button id="okButton" class="back-button">OK</button>
+            <input type="text" id="title" placeholder="Title">
+            <div id="titleError" class="error"></div>
+
+            <input type="url" id="paperAttachment" placeholder="Paper Attachment (Google Drive URL)">
+            <div id="paperAttachmentError" class="error"></div>
+
+            <input type="text" id="teamMembers" placeholder="Team Members Details">
+            <div id="teamMembersError" class="error"></div>
+
+            <button type="button" id="submitParticipation">Submit</button>
+        </form>
+
+        <div id="successMessage" style="display: none;">
+            <p>Registration Successful!</p>
         </div>
-            </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyDuuumZaf2vqFA3ezY_eq98Pq7qQIDTe0Q",
             authDomain: "kkrt-8726d.firebaseapp.com",
@@ -320,125 +105,106 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        function isValidUPI(upiId) {
-            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$/.test(upiId);
-        }
+        const resetErrors = () => {
+            document.querySelectorAll('.error').forEach(err => err.innerText = '');
+        };
 
-        function isValidDocsURL(url) {
-            return url.startsWith("https://docs.google.com/");
-        }
-
-        function resetErrors() {
-            document.querySelectorAll('.error').forEach(error => error.innerText = '');
-            document.querySelectorAll('input, select').forEach(input => input.classList.remove('error-border'));
-        }
-
-        async function saveUserDetails(userDetails) {
-            try {
-                document.getElementById('loading').style.display = 'flex';
-                await addDoc(collection(db, 'userDetails'), userDetails);
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'flex';
-                document.getElementById('okButton').addEventListener('click', () => {
-                    document.getElementById('successMessage').style.display = 'none';
-                    document.getElementById('userForm').reset();
-                    document.getElementById('status').innerText = '';
-                });
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('status').innerText = `Error: ${error.message}`;
-                document.getElementById('status').style.color = '#f44336';
-                document.getElementById('status').style.backgroundColor = '#fbe9e7';
-            }
-        }
-        document.getElementById('userForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            resetErrors();
+        const validateForm = (formFields) => {
             let isValid = true;
-            const userDetails = {
-                name: document.getElementById('name').value,
-                clgName: document.getElementById('clgName').value,
-                department: document.getElementById('department').value,
-                year: document.getElementById('year').value,
-                email: document.getElementById('email').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                participationType: document.getElementById('participationType').value,
-                upiId: document.getElementById('upiId').value,
-                upiScreenshot: document.getElementById('upiScreenshot').value,
-                domain: document.getElementById('domain').value,
-                userType: document.getElementById('userType').value,
-                paperAttachment: document.getElementById('paperAttachment').value,
-                title: document.getElementById('title').value,
-                timestamp: serverTimestamp()
-            };
-            if (!userDetails.name) {
-                isValid = false;
-                document.getElementById('nameError').innerText = 'Name is required';
-                document.getElementById('name').classList.add('error-border');
+            formFields.forEach(({ id, errorId, message }) => {
+                const value = document.getElementById(id).value.trim();
+                if (!value) {
+                    document.getElementById(errorId).innerText = message;
+                    isValid = false;
+                } else {
+                    document.getElementById(errorId).innerText = '';
+                }
+            });
+            return isValid;
+        };
+        const saveToFirestore = async (userDetails) => {
+            try {
+                document.getElementById("overlay").style.display = "block"; // Show loading
+                const docRef = await addDoc(collection(db, "userDetails"), userDetails);
+                console.log("Document written with ID: ", docRef.id);
+                document.getElementById("overlay").style.display = "none"; // Hide loading
+                document.getElementById("successMessage").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("successMessage").style.display = "none";
+                    location.reload();
+                }, 3000);
+            } catch (e) {
+                console.error("Error adding document: ", e);
             }
-            if (!userDetails.clgName) {
-                isValid = false;
-                document.getElementById('clgNameError').innerText = 'College Name is required';
-                document.getElementById('clgName').classList.add('error-border');
+        };
+        document.getElementById("nextButton").addEventListener("click", () => {
+            resetErrors();
+            const mainFormFields = [
+                { id: "name", errorId: "nameError", message: "Name is required." },
+                { id: "clgName", errorId: "clgNameError", message: "College name is required." },
+                { id: "department", errorId: "departmentError", message: "Department is required." },
+                { id: "year", errorId: "yearError", message: "Year is required." },
+                { id: "email", errorId: "emailError", message: "Email is required." },
+                { id: "phoneNumber", errorId: "phoneNumberError", message: "Phone number is required." },
+                { id: "participationType", errorId: "participationTypeError", message: "Participation type is required." }
+            ];
+            if (validateForm(mainFormFields)) {
+                const participationType = document.getElementById("participationType").value;
+                document.getElementById("mainForm").style.display = "none";
+                if (participationType === "Presentation") {
+                    document.getElementById("presentationForm").style.display = "block";
+                } else if (participationType === "Participation") {
+                    document.getElementById("participationForm").style.display = "block";
+                }
             }
-            if (!userDetails.department) {
-                isValid = false;
-                document.getElementById('departmentError').innerText = 'Department is required';
-                document.getElementById('department').classList.add('error-border');
+        });
+
+        document.getElementById("submitPresentation").addEventListener("click", () => {
+            resetErrors();
+            const presentationFields = [
+                { id: "upiId", errorId: "upiIdError", message: "UPI ID is required." },
+                { id: "presentationScreenshot", errorId: "presentationScreenshotError", message: "UPI screenshot is required." }
+            ];
+            if (validateForm(presentationFields)) {
+                const userDetails = {
+                    name: document.getElementById("name").value,
+                    clgName: document.getElementById("clgName").value,
+                    department: document.getElementById("department").value,
+                    year: document.getElementById("year").value,
+                    email: document.getElementById("email").value,
+                    phoneNumber: document.getElementById("phoneNumber").value,
+                    participationType: "Presentation",
+                    upiId: document.getElementById("upiId").value,
+                    presentationScreenshot: document.getElementById("presentationScreenshot").value,
+                    timestamp: serverTimestamp()
+                };
+                saveToFirestore(userDetails);
             }
-            if (!userDetails.year) {
-                isValid = false;
-                document.getElementById('yearError').innerText = 'Year is required';
-                document.getElementById('year').classList.add('error-border');
-            }
-            if (!userDetails.email) {
-                isValid = false;
-                document.getElementById('emailError').innerText = 'Email is required';
-                document.getElementById('email').classList.add('error-border');
-            }
-            if (!userDetails.phoneNumber) {
-                isValid = false;
-                document.getElementById('phoneNumberError').innerText = 'Phone Number is required';
-                document.getElementById('phoneNumber').classList.add('error-border');
-            }
-            if (!userDetails.participationType) {
-                isValid = false;
-                document.getElementById('participationTypeError').innerText = 'Participation Type is required';
-                document.getElementById('participationType').classList.add('error-border');
-            }
-            if (!userDetails.upiId || !isValidUPI(userDetails.upiId)) {
-                isValid = false;
-                document.getElementById('upiIdError').innerText = 'Valid UPI ID is required';
-                document.getElementById('upiId').classList.add('error-border');
-            }
-            if (!userDetails.upiScreenshot || !isValidDocsURL(userDetails.upiScreenshot)) {
-                isValid = false;
-                document.getElementById('upiScreenshotError').innerText = 'Valid UPI Screenshot URL is required';
-                document.getElementById('upiScreenshot').classList.add('error-border');
-            }
-            if (!userDetails.domain) {
-                isValid = false;
-                document.getElementById('domainError').innerText = 'Domain is required';
-                document.getElementById('domain').classList.add('error-border');
-            }
-            if (!userDetails.userType) {
-                isValid = false;
-                document.getElementById('userTypeError').innerText = 'User Type is required';
-                document.getElementById('userType').classList.add('error-border');
-            }
-            if (!userDetails.paperAttachment || !isValidDocsURL(userDetails.paperAttachment)) {
-                isValid = false;
-                document.getElementById('paperAttachmentError').innerText = 'Valid Paper Attachment URL is required';
-                document.getElementById('paperAttachment').classList.add('error-border');
-            }
-            if (!userDetails.title) {
-                isValid = false;
-                document.getElementById('titleError').innerText = 'Title is required';
-                document.getElementById('title').classList.add('error-border');
-            }
-            if (isValid) {
-                document.getElementById('loading').style.display = 'flex';
-                saveUserDetails(userDetails);
+        });
+        document.getElementById("submitParticipation").addEventListener("click", () => {
+            resetErrors();
+            const participationFields = [
+                { id: "domain", errorId: "domainError", message: "Domain is required." },
+                { id: "title", errorId: "titleError", message: "Title is required." },
+                { id: "paperAttachment", errorId: "paperAttachmentError", message: "Paper attachment is required." },
+                { id: "teamMembers", errorId: "teamMembersError", message: "Team members are required." }
+            ];
+            if (validateForm(participationFields)) {
+                const userDetails = {
+                    name: document.getElementById("name").value,
+                    clgName: document.getElementById("clgName").value,
+                    department: document.getElementById("department").value,
+                    year: document.getElementById("year").value,
+                    email: document.getElementById("email").value,
+                    phoneNumber: document.getElementById("phoneNumber").value,
+                    participationType: "Participation",
+                    domain: document.getElementById("domain").value,
+                    title: document.getElementById("title").value,
+                    paperAttachment: document.getElementById("paperAttachment").value,
+                    teamMembers: document.getElementById("teamMembers").value,
+                    timestamp: serverTimestamp()
+                };
+                saveToFirestore(userDetails);
             }
         });
     </script>
