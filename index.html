@@ -14,13 +14,10 @@
         <form id="mainForm">
             <input type="text" id="name" placeholder="Full Name">
             <div id="nameError" class="error"></div>
-
             <input type="text" id="clgName" placeholder="College Name">
             <div id="clgNameError" class="error"></div>
-
             <input type="text" id="department" placeholder="Department (Abbreviation)">
             <div id="departmentError" class="error"></div>
-
             <select id="year">
                 <option value="">Select Year</option>
                 <option value="1">1st Year</option>
@@ -29,20 +26,24 @@
                 <option value="4">4th Year</option>
             </select>
             <div id="yearError" class="error"></div>
-
             <input type="email" id="email" placeholder="Email ID">
             <div id="emailError" class="error"></div>
-
             <input type="tel" id="phoneNumber" placeholder="Phone Number">
             <div id="phoneNumberError" class="error"></div>
-
+            <select id="userType" >
+                <option value="">Select User Type</option>
+                <option value="Student">Student</option>
+                <option value="Faculty">Faculty</option>
+                <option value="Research Scholars">Research Scholars</option>
+                <option value="Industrialist">Industrialist</option>
+            </select>
+            <div id="userTypeError" class="error"></div>
             <select id="participationType">
                 <option value="">Select Participation Type</option>
                 <option value="Presentation">Presentation</option>
                 <option value="Participation">Participation</option>
             </select>
             <div id="participationTypeError" class="error"></div>
-
             <button type="button" id="nextButton">Next</button>
         </form>
         <div id="overlay" class="overlay">
@@ -55,10 +56,8 @@
             <h2>Presentation Details</h2>
             <input type="text" id="upiId" placeholder="UPI ID">
             <div id="upiIdError" class="error"></div>
-
             <input type="url" id="presentationScreenshot" placeholder="UPI Transaction Screenshot (Google Drive URL)">
             <div id="presentationScreenshotError" class="error"></div>
-
             <button type="button" id="submitPresentation">Submit</button>
         </form>
         <form id="participationForm" style="display: none;">
@@ -68,30 +67,70 @@
                 <option value="Communication and Networking">Communication and Networking</option>
                 <option value="Database Systems, Data Warehousing, and Data Mining">Database Systems, Data Warehousing, and Data Mining</option>
                 <option value="Information Assurance">Information Assurance</option>
+                <option value="Web Services and Technologies">Web Services and Technologies</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Multimedia Processing">Multimedia Processing</option>
+                <option value="Al Algorithms">Al Algorithms</option>
+                <option value="Artificial Intelligence tools & Applications">Artificial Intelligence tools & Applications</option>
+                <option value="Automatic Control">Automatic Control</option>
+                <option value="Bioinformatics">Bioinformatics</option>
+                <option value="Image and Video Processing">Image and Video Processing</option>
+                <option value="Natural Language Processing">Natural Language Processing</option>
+                <option value="CAD Design & Testing">CAD Design & Testing</option>
+                <option value="Computer Vision and Speech Understanding">Computer Vision and Speech Understanding</option>
+                <option value="Data Mining and Machine Learning Tools">Data Mining and Machine Learning Tools</option>
+                <option value="Fuzzy Logic">Fuzzy Logic</option>
+                <option value="Heuristic and Al Planning Strategies and Tools">Heuristic and Al Planning Strategies and Tools</option>
+                <option value="Computational Theories of Learning">Computational Theories of Learning</option>
+                <option value="Hybrid Intelligent Systems">Hybrid Intelligent Systems</option>
+                <option value="Information Retrieval">Information Retrieval</option>
+                <option value="Knowledge Representation">Knowledge Representation</option>
+                <option value="Knowledge-based Systems">Knowledge-based Systems</option>
+                <option value="Mechatronics">Mechatronics</option>
+                <option value="Multimedia & Cognitive Informatics">Multimedia & Cognitive Informatics</option>
+                <option value="Neural Networks">Neural Networks</option>
+                <option value="Parallel Processing">Parallel Processing</option>
+                <option value="Pattern Recognition">Pattern Recognition</option>
+                <option value="Robotics">Robotics</option>
             </select>
             <div id="domainError" class="error"></div>
-
             <input type="text" id="title" placeholder="Title">
             <div id="titleError" class="error"></div>
-
             <input type="url" id="paperAttachment" placeholder="Paper Attachment (Google Drive URL)">
             <div id="paperAttachmentError" class="error"></div>
-
-            <input type="text" id="teamMembers" placeholder="Team Members Details">
-            <div id="teamMembersError" class="error"></div>
-
+            <h3>Team Member Details (Only one member allowed)</h3>
+            <input type="text" id="teamMemberFullName" placeholder="Team Member Full Name">
+            <div id="teamMemberFullNameError" class="error"></div>
+            <input type="text" id="teamMemberClg" placeholder="Team Member College Name">
+            <div id="teamMemberClgError" class="error"></div>
+            <input type="text" id="teamMemberDepartment" placeholder="Team Member Department">
+            <div id="teamMemberDepartmentError" class="error"></div>
+            <select id="teamMemberYear">
+                <option value="">Select Year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+            <div id="teamMemberYearError" class="error"></div>
+            <input type="email" id="teamMemberEmail" placeholder="Team Member Email">
+            <div id="teamMemberEmailError" class="error"></div>
+            <input type="tel" id="teamMemberPhoneNumber" placeholder="Team Member Phone Number">
+            <div id="teamMemberPhoneNumberError" class="error"></div>
+            <h3>Payment Details</h3>
+            <input type="url" id="upiScreenshot" placeholder="UPI Screenshot (Google Drive URL)">
+            <div id="upiScreenshotError" class="error"></div>
+            <input type="text" id="upiId" placeholder="UPI ID">
+            <div id="upiIdError" class="error"></div>
             <button type="button" id="submitParticipation">Submit</button>
         </form>
-
         <div id="successMessage" style="display: none;">
             <p>Registration Successful!</p>
         </div>
     </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-
         const firebaseConfig = {
             apiKey: "AIzaSyDuuumZaf2vqFA3ezY_eq98Pq7qQIDTe0Q",
             authDomain: "kkrt-8726d.firebaseapp.com",
@@ -101,14 +140,17 @@
             appId: "1:775944666621:web:180754cc4a130108372d94",
             measurementId: "G-BT8TZ60JGR"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
+        
         const resetErrors = () => {
             document.querySelectorAll('.error').forEach(err => err.innerText = '');
         };
-
+        
+        const isValidUpiId = (upiId) => {
+            const upiRegex = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+            return upiRegex.test(upiId);
+        };
         const validateForm = (formFields) => {
             let isValid = true;
             formFields.forEach(({ id, errorId, message }) => {
@@ -124,10 +166,10 @@
         };
         const saveToFirestore = async (userDetails) => {
             try {
-                document.getElementById("overlay").style.display = "block"; // Show loading
+                document.getElementById("overlay").style.display = "block";
                 const docRef = await addDoc(collection(db, "userDetails"), userDetails);
                 console.log("Document written with ID: ", docRef.id);
-                document.getElementById("overlay").style.display = "none"; // Hide loading
+                document.getElementById("overlay").style.display = "none";
                 document.getElementById("successMessage").style.display = "block";
                 setTimeout(() => {
                     document.getElementById("successMessage").style.display = "none";
@@ -146,6 +188,7 @@
                 { id: "year", errorId: "yearError", message: "Year is required." },
                 { id: "email", errorId: "emailError", message: "Email is required." },
                 { id: "phoneNumber", errorId: "phoneNumberError", message: "Phone number is required." },
+                { id: "userType", errorId: "userTypeError", message: "User Type is required." },
                 { id: "participationType", errorId: "participationTypeError", message: "Participation type is required." }
             ];
             if (validateForm(mainFormFields)) {
@@ -158,7 +201,6 @@
                 }
             }
         });
-
         document.getElementById("submitPresentation").addEventListener("click", () => {
             resetErrors();
             const presentationFields = [
@@ -173,6 +215,7 @@
                     year: document.getElementById("year").value,
                     email: document.getElementById("email").value,
                     phoneNumber: document.getElementById("phoneNumber").value,
+                    userType: document.getElementById("userType").value,
                     participationType: "Presentation",
                     upiId: document.getElementById("upiId").value,
                     presentationScreenshot: document.getElementById("presentationScreenshot").value,
@@ -182,31 +225,45 @@
             }
         });
         document.getElementById("submitParticipation").addEventListener("click", () => {
-            resetErrors();
-            const participationFields = [
-                { id: "domain", errorId: "domainError", message: "Domain is required." },
-                { id: "title", errorId: "titleError", message: "Title is required." },
-                { id: "paperAttachment", errorId: "paperAttachmentError", message: "Paper attachment is required." },
-                { id: "teamMembers", errorId: "teamMembersError", message: "Team members are required." }
-            ];
-            if (validateForm(participationFields)) {
-                const userDetails = {
-                    name: document.getElementById("name").value,
-                    clgName: document.getElementById("clgName").value,
-                    department: document.getElementById("department").value,
-                    year: document.getElementById("year").value,
-                    email: document.getElementById("email").value,
-                    phoneNumber: document.getElementById("phoneNumber").value,
-                    participationType: "Participation",
-                    domain: document.getElementById("domain").value,
-                    title: document.getElementById("title").value,
-                    paperAttachment: document.getElementById("paperAttachment").value,
-                    teamMembers: document.getElementById("teamMembers").value,
-                    timestamp: serverTimestamp()
-                };
-                saveToFirestore(userDetails);
-            }
-        });
-    </script>
+    resetErrors();
+    const participationFields = [
+        { id: "domain", errorId: "domainError", message: "Domain is required." },
+        { id: "title", errorId: "titleError", message: "Title is required." },
+        { id: "paperAttachment", errorId: "paperAttachmentError", message: "Paper attachment is required." },
+        { id: "teamMemberFullName", errorId: "teamMemberFullNameError", message: "Team member full name is required." },
+        { id: "teamMemberClg", errorId: "teamMemberClgError", message: "Team member college name is required." },
+        { id: "teamMemberDepartment", errorId: "teamMemberDepartmentError", message: "Team member department is required." },
+        { id: "teamMemberYear", errorId: "teamMemberYearError", message: "Team member year is required." },
+        { id: "teamMemberEmail", errorId: "teamMemberEmailError", message: "Team member email is required." },
+        { id: "teamMemberPhoneNumber", errorId: "teamMemberPhoneNumberError", message: "Team member phone number is required." },
+        { id: "upiScreenshot", errorId: "upiScreenshotError", message: "UPI screenshot (Google Drive URL) is required." },
+        { id: "upiId", errorId: "upiIdError", message: "UPI ID is required." }
+    ];
+    if (validateForm(participationFields)) {
+        const userDetails = {
+            name: document.getElementById("name").value,
+            clgName: document.getElementById("clgName").value,
+            department: document.getElementById("department").value,
+            year: document.getElementById("year").value,
+            email: document.getElementById("email").value,
+            phoneNumber: document.getElementById("phoneNumber").value,
+            userType: document.getElementById("userType").value,
+            participationType: "Participation",
+            domain: document.getElementById("domain").value,
+            title: document.getElementById("title").value,
+            paperAttachment: document.getElementById("paperAttachment").value,
+            teamMemberfullName: document.getElementById("teamMemberFullName").value,
+            teamMemberclgName: document.getElementById("teamMemberClg").value,
+            teamMemberdepartment: document.getElementById("teamMemberDepartment").value,
+            teamMemberyear: document.getElementById("teamMemberYear").value,
+            teamMemberemail: document.getElementById("teamMemberEmail").value,
+            teamMemberphoneNumber: document.getElementById("teamMemberPhoneNumber").value,
+            upiScreenshot: document.getElementById("upiScreenshot").value,
+            upiId: document.getElementById("upiId").value,
+            timestamp: serverTimestamp()
+        };
+        saveToFirestore(userDetails);
+    }
+}); </script>
 </body>
 </html>
